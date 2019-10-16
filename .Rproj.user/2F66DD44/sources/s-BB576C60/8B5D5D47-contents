@@ -1,0 +1,28 @@
+# elaboración de mapas en R -----------------------------------------------
+#Insumos:
+library(sf)        # para manejar datos geograficos (datos vectoriales)
+library(tidyverse) # data sciencie en R
+library(tmap)      # elaborar mapas tematicos en R
+library(extrafont)
+
+# lectura de datos sp -----------------------------------------------------
+
+shp <- st_read('../DistritosAfectados.shp') 
+head(shp)
+names(shp)  
+colnames(shp )
+plot(shp[,4],axes = T)
+
+tmap_mode('view')
+
+mapa = tm_shape(shp) +
+  tm_fill('I.riesgo' ,palette = 'Reds',alpha =  0.8) +
+  tm_borders(lwd = 1,col= 'black') +
+  tm_text(text = 'NOMBDIST'
+          ,size = 0.4,
+          fontfamily ="Symeteo",
+          fontface = 'bold')
+
+mapa
+ tmap_save(tm = mapa,filename = 'mapa.html')
+ 
